@@ -64,14 +64,20 @@ export function sortbylived() {
 }
 
 // 6. sort Exercise
-// Sort the people alphabetically by last name and return the sorted array
 export function sortByLastName() {
     return people.sort((a, b) => {
         const [aLast, aFirst] = a.split(', ');
         const [bLast, bFirst] = b.split(', ');
+
+        // Compare last names first
+        if (aLast === bLast) {
+            // If last names are the same, compare first names
+            return aFirst.localeCompare(bFirst);
+        }
         return aLast.localeCompare(bLast);
     });
 }
+
 
 // 7. Reduce Exercise
 // Sum up the instances of each of these
