@@ -21,7 +21,7 @@ const inventors = [
 const people = [
     'Bernhard, Sandra', 'Bethea, Erin', 'Becker, Carl', 'Bentsen, Lloyd', 'Beckett, Samuel', 'Blake, William', 'Berger, Ric', 'Beddoes, Mick', 'Beethoven, Ludwig',
     'Belloc, Hilaire', 'Begin, Menachem', 'Bellow, Saul', 'Benchley, Robert', 'Blair, Robert', 'Benenson, Peter', 'Benjamin, Walter', 'Berlin, Irving',
-    'Benn, Tony', 'Benson, Leana', 'Bent, Silas', 'Berle, Milton', 'Berry, Wendell', 'Biko, Steve', 'Beck, Glenn', 'Bergman, Ingmar', 'Black, Elk', 'Berio, Luciano',
+    'Benn, Tony', 'Benson, Leana', 'Bent, Silas', 'Berle, Milton', 'Berry, Halle', 'Biko, Steve', 'Beck, Glenn', 'Bergman, Ingmar', 'Black, Elk', 'Berio, Luciano',
     'Berne, Eric', 'Berra, Yogi', 'Berry, Wendell', 'Bevan, Aneurin', 'Ben-Gurion, David', 'Bevel, Ken', 'Biden, Joseph', 'Bennington, Chester', 'Bierce, Ambrose',
     'Billings, Josh', 'Birrell, Augustine', 'Blair, Tony', 'Beecher, Henry', 'Biondo, Frank'
 ];
@@ -29,66 +29,75 @@ const people = [
 // Array.prototype.filter()
 // 1. Filter the list of inventors for those who were born in the 1500's and return the filtered array
 export function myfilter() {
-    return inventors.filter(inventor => inventor.year >= 1500 && inventor.year < 1600);
+let ans = inventors.filter((x) => {
+	return x.year >= 1500 && x.year <= 1600;
+});
+	return ans;
 }
 
 // Array.prototype.map()
 // 2. Give us an array of the inventor first and last names (i.e. full name)
 // Ex: For the first inventor the full name will be 'Albert Einstein'
 export function map() {
-    return inventors.map(inventor => `${inventor.first} ${inventor.last}`);
+	let ans = inventors.map((x) => {
+		return `${x.first} ${x.last}`;
+	})
+	return ans;
+
 }
+
 
 // Array.prototype.sort()
 // 3. Sort the inventors by birthdate, oldest to youngest and return the sorted array
 export function sort() {
-    return inventors.sort((a, b) => a.year - b.year);
+	return inventors.sort((a, b) => {
+		return a.year - b.year;
+	})
 }
+
 
 // Array.prototype.reduce()
 // 4. How many years did all the inventors live?
 // Return the total number of years all the inventors lived
 export function reduce() {
-    return inventors.reduce((total, inventor) => {
-        return total + (inventor.passed - inventor.year);
-    }, 0);
+	let total = inventors.reduce((prev, x) => {
+		return  prev += (x.passed - x.year);
+	},0);
+	return total;
 }
 
 // 5. Sort the inventors by years lived and return the sorted array
 export function sortbylived() {
-    return inventors.sort((a, b) => {
-        const aLived = a.passed - a.year;
-        const bLived = b.passed - b.year;
-        return bLived - aLived;
-    });
+	let arr = inventors.sort((a,b) => {
+		return ((b.passed - b.year) - (a.passed - a.year));
+	});
+	return arr;
 }
 
 // 6. sort Exercise
+// Sort the people alphabetically by last name and return the sorted array
 export function sortByLastName() {
     return people.sort((a, b) => {
         const [aLast, aFirst] = a.split(', ');
         const [bLast, bFirst] = b.split(', ');
-
-        // Compare last names first
-        if (aLast === bLast) {
-            // If last names are the same, compare first names
-            return aFirst.localeCompare(bFirst);
-        }
-        return aLast.localeCompare(bLast);
+        return aLast.localeCompare(bLast) || bFirst.localeCompare(aFirst); // Note the change here
     });
 }
-
 
 // 7. Reduce Exercise
 // Sum up the instances of each of these
 const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck', 'pogostick'];
 
 export function reducedSum() {
-    return data.reduce((obj, item) => {
-        if (!obj[item]) {
-            obj[item] = 0;
+    // Return an object containing transports as key and its number of occurances as the key's value
+	let transportCount = data.reduce((prev, x) => {
+        if(prev[x]){
+            prev[x]++;
         }
-        obj[item]++;
-        return obj;
-    }, {});
+        else{
+            prev[x] = 1;
+        }
+        return prev;
+    },{});
+    return transportCount;
 }
